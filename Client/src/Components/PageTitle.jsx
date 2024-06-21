@@ -12,7 +12,7 @@ function PageTitle({page}) {
                             <i className="bi bi-house-door"></i>
                         </a>
                     </li>
-                    <li className="breadcrumb-item active">{page}</li>
+                    <li className="breadcrumb-item active">Testing GitHub</li>
                 </ol>
             </nav>
         </div>
