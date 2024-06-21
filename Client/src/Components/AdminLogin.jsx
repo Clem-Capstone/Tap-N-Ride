@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import '../auth.css';
+import './css/auth.css';
 import logo from '../img/pabama-logo.png';
 
 const AdminLogin = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import '../auth.css';
+import './css/auth.css';
 
 const AdminRegister = () => {
   const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
@@ -35,7 +35,7 @@ const AdminRegister = () => {
   };
 
   return (
-    <div className='wrapper'>
+    <div id='wrapper' className='wrapper'>
       <form onSubmit={handleSubmit}>
         <h1>Register</h1>
         <div className='input-box'>
