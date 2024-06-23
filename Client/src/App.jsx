@@ -1,33 +1,25 @@
+// App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './Components/Dashboard';
 import AdminRegister from './Components/AdminRegister';
 import AdminLogin from './Components/AdminLogin';
+import Transactions from './Components/Transactions';
+import Main from './Components/Main';
+
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/admin/register">Admin Register</Link>
-            </li>
-            <li>
-              <Link to="/admin/login">Admin Login</Link>
-            </li>
-          </ul>
-        </nav> */}
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/register" element={<AdminRegister />} />
-          <Route path="/" element={<AdminLogin />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Dashboard />}>
+          <Route path="dashboard" element={<Main />} />
+          <Route path="register" element={<AdminRegister />} />
+          <Route path="login" element={<AdminLogin />} />
+          <Route path="transactions" element={<Transactions />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
