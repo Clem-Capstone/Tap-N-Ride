@@ -12,12 +12,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.use(cors());
 
 // Public Routes
@@ -34,8 +33,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
 });
 
-
-//TRIAL AND ERROR
+// TRIAL AND ERROR
 const transactionSchema = new mongoose.Schema({
   uid: String,
   timestamp: { type: Date, default: Date.now }
@@ -61,11 +59,9 @@ app.get('/api/transactions', async (req, res) => {
   }
 });
 
-
-
-
 // Database Connection
-mongoose.connect('mongodb://localhost:27017/pabama_db')
+const uri = process.env.MONGODB_URI;
+mongoose.connect(uri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
