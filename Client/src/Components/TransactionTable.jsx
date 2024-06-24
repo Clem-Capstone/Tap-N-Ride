@@ -1,31 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { format } from 'date-fns';
 import './css/transactions.css';
 
 const TransactionsTable = ({ transactions }) => {
-  const [sortConfig, setSortConfig] = useState(null);
-
-  const sortedTransactions = [...transactions].sort((a, b) => {
-    if (sortConfig !== null) {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
-      }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return 'Invalid Date';
     }
-    return 0;
-  });
-
-  const requestSort = (key) => {
-    let direction = 'ascending';
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === 'ascending'
-    ) {
-      direction = 'descending';
-    }
-    setSortConfig({ key, direction });
+    return format(date, 'EEEE, MMMM d, yyyy h:mm a');
   };
 
   return (
@@ -33,27 +16,33 @@ const TransactionsTable = ({ transactions }) => {
       <table className="transactions-table">
         <thead>
           <tr>
-            <th onClick={() => requestSort('id')}>ID</th>
-            <th onClick={() => requestSort('date')}>Date</th>
-            <th onClick={() => requestSort('user')}>User</th>
-            <th onClick={() => requestSort('amount')}>Amount</th>
-            <th onClick={() => requestSort('type')}>Type</th>
-            <th onClick={() => requestSort('status')}>Status</th>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Card ID</th>
+            <th>Balance</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Date/Time</th>
+            <th>Description</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {sortedTransactions.map(transaction => (
-            <tr key={transaction.id}>
-              <td>{transaction.id}</td>
-              <td>{transaction.date}</td>
-              <td>{transaction.user}</td>
+          {transactions.map(transaction => (
+            <tr key={transaction._id}>
+              <td>{transaction._id}</td>
+              <td>{transaction.userID}</td>
+              <td>{transaction.cardID}</td>
+              <td>{transaction.balance}</td>
               <td>{transaction.amount}</td>
               <td>{transaction.type}</td>
               <td>{transaction.status}</td>
+              <td>{formatDate(transaction.createdAt)}</td>
+              <td>{transaction.description}</td>
               <td>
-              <button type="button" class="btn btn-success">Edit</button>
-              <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" className="btn btn-success">Edit</button>
+                <button type="button" className="btn btn-danger">Delete</button>
               </td>
             </tr>
           ))}

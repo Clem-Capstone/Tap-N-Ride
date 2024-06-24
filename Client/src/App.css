@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
-  margin-left: 300px; /* or the width of your sidebar */
+  margin-left: 200px; /* or the width of your sidebar */
   margin-top: 40px;
 }
 
