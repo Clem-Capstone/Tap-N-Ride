@@ -19,6 +19,13 @@
     "bootstrap-icons": "^1.11.3",
     "boxicons": "^2.1.4",
     "echarts": "^5.5.0",
+<<<<<<< HEAD
+    "primeflex": "^3.0.0",
+    "primeicons": "^5.0.0",
+=======
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+>>>>>>> main
     "primereact": "^10.6.6",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

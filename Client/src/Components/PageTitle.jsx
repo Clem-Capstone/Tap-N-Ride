@@ -14,7 +14,7 @@ function PageTitle({page}) {
                     </li>
                     <li className="breadcrumb-item active">{page}</li>
                 </ol>
-            </nav>
+            </nav> 
         </div>
     );
 }

@@ -1,31 +1,58 @@
+import asyncHandler from 'express-async-handler';
 import Admin from '../models/Admin.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import generateToken from '../utils/generateToken.js';
 
-export const registerAdmin = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = new Admin({ username, password: hashedPassword });
-    const savedAdmin = await admin.save();
-    res.status(201).json(savedAdmin);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+const registerAdmin = asyncHandler(async (req, res) => {
+  const { name, email, username, password } = req.body;
+
+  const adminExists = await Admin.findOne({ email });
+
+  if (adminExists) {
+    res.status(400).json({ message: 'Admin already exists' });
+    return;
   }
-};
 
-export const loginAdmin = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(404).json({ message: 'Admin not found' });
+  const admin = await Admin.create({ name, email, username, password });
 
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-
-    const token = jwt.sign({ id: admin._id }, '!teletappies#pabama@NFC_Project1010');
-    res.status(200).json({ token });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  if (admin) {
+    res.status(201).json({
+      _id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      username: admin.username,
+      token: generateToken(admin._id),
+    });
+  } else {
+    res.status(400).json({ message: 'Invalid admin data' });
   }
-};
+});
+
+const loginAdmin = asyncHandler(async (req, res) => {
+  const { login, password } = req.body;
+
+  const admin = await Admin.findOne({ $or: [{ email: login }, { username: login }] });
+
+  if (admin && (await admin.matchPassword(password))) {
+    res.json({
+      _id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      username: admin.username,
+      token: generateToken(admin._id),
+    });
+  } else {
+    res.status(401).json({ message: 'Invalid email/username or password' });
+  }
+});
+
+const getAdminProfile = asyncHandler(async (req, res) => {
+  const admin = await Admin.findById(req.admin._id).select('-password');
+
+  if (admin) {
+    res.json(admin);
+  } else {
+    res.status(404).json({ message: 'Admin not found' });
+  }
+});
+
+export { registerAdmin, loginAdmin, getAdminProfile };

@@ -12,6 +12,15 @@ import 'remixicon/fonts/remixicon.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
+<<<<<<< HEAD
+=======
+import Header from './Header';
+import SideBar from './SideBar';
+import Main from './Main';
+import AdminManagement from './AdminManagement';
+
+
+>>>>>>> main
 const Dashboard = () => {
   return (
     <>

@@ -78,6 +78,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+.p-datatable .p-datatable-thead > tr > th {
+  padding: 10px;
+  text-align: right;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 10px;
+}
+
+
+
 /* Bootstrap style overriding */
 /* Dropdown menus */
 .dropdown-menu {

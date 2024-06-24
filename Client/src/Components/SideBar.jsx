@@ -14,6 +14,7 @@ function SideBar() {
                     </Link>
                 </li>
 
+<<<<<<< HEAD
                 {/* Documents Section */}
                 <li className="nav-item">
                     <a 
@@ -47,6 +48,40 @@ function SideBar() {
             </ul>
         </aside>
     );
+=======
+            <li className="nav-item">
+                <a className="nav-link" href="/dashboard">
+                    <i className="bi bi-cash-coin"></i>
+                    <span>Transactions</span>
+                </a>
+            </li>
+
+            <li className="nav-item">
+                <a className="nav-link" href="/admins">
+                    <i className="bi bi-person"></i>
+                    <span>Admins</span>
+                </a>
+            </li>
+
+
+            {/* <li className="nav-item">
+                <a 
+                    className="nav-link collapsed"
+                    data-bs-target="#components-nav"
+                    data-bs-toggle="collapse"
+                    href="#"
+                >
+                    <i className="bi bi-menu-button-wide"></i>
+                    <span>Transactions</span>
+                    <i className="bi bi-chevron-down ms-auto"></i>
+                </a>
+            </li> */}
+
+        </ul>
+    </aside>;
+
+    
+>>>>>>> main
 }
 
 export default SideBar;
