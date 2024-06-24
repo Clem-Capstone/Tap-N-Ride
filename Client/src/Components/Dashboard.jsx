@@ -12,7 +12,6 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import Header from './Header';
 import SideBar from './SideBar';
 import Main from './Main';
-import AdminManagement from './AdminManagement';
 
 
 const Dashboard = () => {

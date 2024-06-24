@@ -1,98 +1,89 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import AdminTable from './AdminTable';
-import AdminDialog from './AdminDialog';
-import AdminToolbar from './AdminToolbar';
-import { Toast } from 'primereact/toast';
-import Header from './Header';
-import SideBar from './SideBar';
+import { DataGrid } from '@mui/x-data-grid';
+import { Button, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PageTitle from './PageTitle';
+import './css/main.css';
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [editAdmin, setEditAdmin] = useState(null);
-  const [adminForm, setAdminForm] = useState({ name: '', email: '', password: '' });
-  const toast = useRef(null);
 
   useEffect(() => {
     const fetchAdmins = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('Authentication token not found, please log in.');
+        return;
+      }
       try {
-        const response = await axios.get('/api/admins');
-        if (Array.isArray(response.data)) {
-          setAdmins(response.data);
-        } else {
-          throw new Error('Invalid data format');
-        }
+        const response = await axios.get('/api/admin/admins', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setAdmins(response.data);
       } catch (error) {
-        setError('Error fetching admins');
-      } finally {
-        setLoading(false);
+        console.error('Failed to fetch admins:', error);
       }
     };
 
     fetchAdmins();
   }, []);
 
-  const handleOpen = (admin = null) => {
-    setEditAdmin(admin);
-    setAdminForm(admin ? { name: admin.name, email: admin.email, password: '' } : { name: '', email: '', password: '' });
-    setOpen(true);
+  const handleEdit = (id) => {
+    console.log('Edit admin with id:', id);
+    // Add edit functionality here
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDelete = (id) => {
+    console.log('Delete admin with id:', id);
+    // Add delete functionality here
   };
 
-  const handleChange = (e) => {
-    setAdminForm({ ...adminForm, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      if (editAdmin) {
-        await axios.put(`/api/admins/${editAdmin._id}`, adminForm);
-        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Admin updated', life: 3000 });
-      } else {
-        await axios.post('/api/admins', adminForm);
-        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Admin added', life: 3000 });
-      }
-      setOpen(false);
-      const response = await axios.get('/api/admins');
-      setAdmins(response.data);
-    } catch (error) {
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error saving admin', life: 3000 });
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/api/admins/${id}`);
-      const response = await axios.get('/api/admins');
-      setAdmins(response.data);
-      toast.current.show({ severity: 'success', summary: 'Success', detail: 'Admin deleted', life: 3000 });
-    } catch (error) {
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error deleting admin', life: 3000 });
-    }
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  const columns = [
+    { field: 'name', headerName: 'Name', flex: 1 },
+    { field: 'username', headerName: 'Username', flex: 1 },
+    { field: 'email', headerName: 'Email', flex: 1 },
+    { field: 'role', headerName: 'Role', flex: 1 },
+    { field: 'status', headerName: 'Status', flex: 1 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      flex: 1,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            color="primary"
+            onClick={() => handleEdit(params.id)}
+            style={{ marginRight: '10px' }}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="secondary"
+            onClick={() => handleDelete(params.id)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
 
   return (
-    <div>
-      <Header />
-      <SideBar />  
-      <Toast ref={toast} />
-      <AdminToolbar onAdd={() => handleOpen()} />
-      <AdminTable admins={admins} onEdit={handleOpen} onDelete={handleDelete} />
-      <AdminDialog visible={open} adminForm={adminForm} onChange={handleChange} onClose={handleClose} onSubmit={handleSubmit} />
+    <div id="main" className="main">
+      <PageTitle page="Admins" />
+      <div style={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={admins.map(admin => ({ ...admin, id: admin._id }))}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          disableSelectionOnClick
+        />
+      </div>
     </div>
   );
 };
