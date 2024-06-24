@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import profileImg from '../img/profile.png';
 
 function NavAvatar() {
   const navigate = useNavigate();
+  const [admin, setAdmin] = useState({ name: '', email: '' });
+
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('/api/admin/profile', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setAdmin(response.data);
+        } catch (error) {
+          console.error('Error fetching admin details:', error);
+        }
+      }
+    };
+
+    fetchAdminDetails();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
@@ -18,12 +40,12 @@ function NavAvatar() {
         data-bs-toggle="dropdown"
       >
         <img src={profileImg} alt="Couldn't load image." className="rounded-circle" />
-        <span className="d-none d-md-block dropdown-toggle ps-2">J.C Rubiato</span>
+        <span className="d-none d-md-block dropdown-toggle ps-2">{admin.name}</span>
       </a>
 
       <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
         <li className="dropdown-header">
-          <h6>Rubiato</h6>
+          <h6>{admin.name}</h6>
           <span>Admin</span>
         </li>
         <li>

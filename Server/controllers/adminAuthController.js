@@ -30,7 +30,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
 const loginAdmin = asyncHandler(async (req, res) => {
   const { login, password } = req.body;
 
-  // Check if the login field is an email or username
   const admin = await Admin.findOne({ $or: [{ email: login }, { username: login }] });
 
   if (admin && (await admin.matchPassword(password))) {
@@ -46,4 +45,14 @@ const loginAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerAdmin, loginAdmin };
+const getAdminProfile = asyncHandler(async (req, res) => {
+  const admin = await Admin.findById(req.admin._id).select('-password');
+
+  if (admin) {
+    res.json(admin);
+  } else {
+    res.status(404).json({ message: 'Admin not found' });
+  }
+});
+
+export { registerAdmin, loginAdmin, getAdminProfile };
