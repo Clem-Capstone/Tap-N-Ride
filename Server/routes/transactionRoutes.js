@@ -6,27 +6,45 @@ const router = express.Router()
 // Get all Transactions
 router.get('/', async (req, res) => {
   try {
-    const Transactions = await Transaction.find()
-    res.json(Transactions)
+    const Transactions = await Transaction.find().sort({ createdAt: -1 })
+    return res.json(Transactions)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 })
 
 // Create a new Transaction
 router.post('/', async (req, res) => {
-  const Transaction = new Transaction({
-    userID: req.userID,
-    cardID: req.cardID,
-    balance: req.balance,
-    amount: req.amount,
-  })
-
+  if (
+    req.body.userID == undefined ||
+    req.body.cardID == undefined ||
+    req.body.balance == undefined ||
+    req.body.paymentAmount == undefined
+  ) {
+    return res.status(400).json({ message: 'missing required fields' })
+  }
+  const { userID, cardID, balance, paymentAmount } = req.body
   try {
-    const newTransaction = await Transaction.save()
-    res.status(201).json(newTransaction)
+    //check against duplicate transactions
+    const lastTransaction = await Transaction.findOne({ cardID }).sort({ createdAt: -1 })
+
+    if (lastTransaction) {
+      const oneMinuteAgo = new Date(Date.now() - 60000)
+      if (lastTransaction.createdAt > oneMinuteAgo) {
+        return res.status(400).json({ message: 'Transaction too soon' })
+      }
+    }
+
+    const transaction = new Transaction({
+      userID: userID,
+      cardID: cardID,
+      balance: balance,
+      paymentAmount: paymentAmount,
+    })
+    const newTransaction = await transaction.save()
+    return res.status(201).json(newTransaction)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 })
 
