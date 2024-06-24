@@ -4,14 +4,14 @@ import { Button } from '@mui/material';
 import { format } from 'date-fns';
 import './css/transactions.css';
 
-const TransactionsTable = ({ transactions }) => {
+const TransactionTable = ({ transactions }) => {
   const columns = [
     { field: '_id', headerName: 'ID', flex: 0.5 },
     { field: 'date', headerName: 'Date/Time', flex: 1 },
     { field: 'userID', headerName: 'User', flex: 1 },
     { field: 'cardID', headerName: 'Card ID', flex: 1 },
     { field: 'balance', headerName: 'Balance', flex: 1 },
-    { field: 'amount', headerName: 'Amount', flex: 1 },
+    { field: 'amount', headerName: 'Amount', flex: 0.5 },
     { field: 'type', headerName: 'Type', flex: 0.5 },
     { field: 'status', headerName: 'Status', flex: 0.5 },
     { field: 'description', headerName: 'Description', flex: 1 },
@@ -48,4 +48,4 @@ const TransactionsTable = ({ transactions }) => {
   );
 };
 
-export default TransactionsTable;
+export default TransactionTable;

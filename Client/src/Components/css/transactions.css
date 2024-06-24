@@ -32,3 +32,7 @@
   display: flex;
   align-items: center;
 }
+
+button.MuiButton-root {
+  margin-right: 8px;
+}

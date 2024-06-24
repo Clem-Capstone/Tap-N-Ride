@@ -1,6 +1,8 @@
 import React from 'react';
-import TransactionsTable from './TransactionTable';
+import TransactionTable from './TransactionTable';
 import './css/transactions.css';
+import Header from './Header'; // Make sure you import the header
+import SideBar from './SideBar'; // Make sure you import the sidebar
 
 const Transactions = () => {
   const sampleTransactions = [
@@ -9,10 +11,14 @@ const Transactions = () => {
   ];
 
   return (
-    <div id="main" className="main">
-      <h1>Transactions</h1>
-      <TransactionsTable transactions={sampleTransactions} />
-    </div>
+    <>
+      <Header />
+      <SideBar />
+      <div id="main" className="main">
+        <h1>Transactions</h1>
+        <TransactionTable transactions={sampleTransactions} />
+      </div>
+    </>
   );
 };
 
