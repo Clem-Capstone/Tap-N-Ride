@@ -5,10 +5,12 @@ import { Button, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PageTitle from './PageTitle';
+import EditAdminModal from './EditAdminModal'; // Import the EditAdminModal component
 import './css/main.css';
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
+  const [editingAdmin, setEditingAdmin] = useState(null);
 
   useEffect(() => {
     const fetchAdmins = async () => {
@@ -33,13 +35,37 @@ const AdminManagement = () => {
   }, []);
 
   const handleEdit = (id) => {
-    console.log('Edit admin with id:', id);
-    // Add edit functionality here
+    const admin = admins.find(admin => admin._id === id);
+    setEditingAdmin(admin);
   };
 
-  const handleDelete = (id) => {
-    console.log('Delete admin with id:', id);
-    // Add delete functionality here
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`/api/admin/admins/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setAdmins(admins.filter(admin => admin._id !== id));
+    } catch (error) {
+      console.error('Failed to delete admin:', error);
+    }
+  };
+
+  const handleSave = async (updatedAdmin) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.put(`/api/admin/admins/${updatedAdmin._id}`, updatedAdmin, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setAdmins(admins.map(admin => admin._id === updatedAdmin._id ? response.data : admin));
+      setEditingAdmin(null);
+    } catch (error) {
+      console.error('Failed to update admin:', error);
+    }
   };
 
   const columns = [
@@ -84,6 +110,13 @@ const AdminManagement = () => {
           disableSelectionOnClick
         />
       </div>
+      {editingAdmin && (
+        <EditAdminModal
+          admin={editingAdmin}
+          onSave={handleSave}
+          onCancel={() => setEditingAdmin(null)}
+        />
+      )}
     </div>
   );
 };
