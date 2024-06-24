@@ -44,14 +44,23 @@ h1, h2, h3, h4, h5, h6 {
   width: 250px;
   background-color: #f8f9fa;
   height: 100%;
+  transition: width 0.3s;
 }
 
 .main-content {
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
+  transition: margin-left 0.3s;
+  margin-left: 300px;
+  margin-top: 50px;
+  
 }
 
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
 /* SideBar.css */
 .sidebar-nav {
   list-style: none;
@@ -76,6 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link .bi {
   margin-right: 10px;
 }
+
 
 
 .p-datatable .p-datatable-thead > tr > th {
@@ -136,6 +146,8 @@ h1, h2, h3, h4, h5, h6 {
 .dropdown-menu .dropdown-item:hover {
   background-color: #f6f9ff;
 }
+
+
 
 @media (min-width: 786px) {
   .dropdown-menu-arrow::before {
