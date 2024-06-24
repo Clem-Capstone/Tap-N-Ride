@@ -13,7 +13,7 @@ const TransactionSchema = new mongoose.Schema(
     balance: {
       type: Number,
     },
-    amount: {
+    paymentAmount: {
       type: Number,
     },
   },
