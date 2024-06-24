@@ -5,7 +5,7 @@ import './css/auth.css';
 import logo from '../img/pabama-logo.png';
 
 const AdminLogin = () => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ login: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const AdminLogin = () => {
       const { token } = response.data;
       localStorage.setItem('token', token); // Save token for future requests
       console.log('Admin logged in:', response.data);
-      navigate('/dashboard'); // Redirect to dashboard
+      navigate('/'); // Redirect to dashboard
     } catch (error) {
       if (error.response) {
         setMessage(error.response.data.message || 'Error logging in admin');
@@ -39,10 +39,10 @@ const AdminLogin = () => {
         <div className='input-box'>
           <input
             type="text"
-            name="username"
-            value={formData.username}
+            name="login"
+            value={formData.login}
             onChange={handleChange}
-            placeholder="Username"
+            placeholder="Email or Username"
             required
           />
           <i className='bx bxs-user'></i>

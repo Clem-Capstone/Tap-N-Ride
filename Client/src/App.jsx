@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
 import Dashboard from './Components/Dashboard';
 import AdminRegister from './Components/AdminRegister';
 import AdminLogin from './Components/AdminLogin';
-import './App.css';
+import AdminManagement from './Components/AdminManagement';
+import PrivateRoute from './Components/PrivateRoute';
 
 function App() {
   return (
@@ -23,9 +25,12 @@ function App() {
           </ul>
         </nav> */}
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<AdminRegister />} />
-          <Route path="/" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/admins" element={<AdminManagement />} />
+          </Route>
         </Routes>
       </div>
     </Router>
