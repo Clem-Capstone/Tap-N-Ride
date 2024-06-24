@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './css/auth.css';
 
 const AdminRegister = () => {
-  const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -20,6 +20,8 @@ const AdminRegister = () => {
     }
     try {
       const response = await axios.post('/api/admin/register', {
+        name: formData.name,
+        email: formData.email,
         username: formData.username,
         password: formData.password,
       });
@@ -38,6 +40,26 @@ const AdminRegister = () => {
     <div id='wrapper' className='wrapper'>
       <form onSubmit={handleSubmit}>
         <h1>Register</h1>
+        <div className='input-box'>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            required
+          />
+        </div>
+        <div className='input-box'>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+          />
+        </div>
         <div className='input-box'>
           <input
             type="text"

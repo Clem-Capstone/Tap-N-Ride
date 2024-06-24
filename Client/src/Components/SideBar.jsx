@@ -5,38 +5,28 @@ function SideBar() {
     return <aside id='sidebar' className='sidebar'>
         <ul className='sidebar-nav' id='sidebar-nav'>
             <li className="nav-item">
-                <a className="nav-link" href="/dashboard">
+                <a className="nav-link" href="/">
                     <i className="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <li className="nav-item">
-                <a 
-                    className="nav-link collapsed"
-                    data-bs-target="#components-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i className="bi bi-menu-button-wide"></i>
-                    <span>Documents</span>
-                    <i className="bi bi-chevron-down ms-auto"></i>
+                <a className="nav-link" href="/transactions">
+                    <i className="bi bi-cash-coin"></i>
+                    <span>Transactions</span>
                 </a>
-                <ul
-                    id="components-nav"
-                    className="nav-content collapse"
-                    data-bs-parents="#sidebar-nav"
-                >
-                    {/* <li>
-                        <a href="#">
-                            <i className="bi bi-circle"></i>
-                            <span>Admins</span>
-                        </a>
-                    </li> */}
-                </ul>
             </li>
 
             <li className="nav-item">
+                <a className="nav-link" href="/admins">
+                    <i className="bi bi-person-lock"></i>
+                    <span>Admins</span>
+                </a>
+            </li>
+
+
+            {/* <li className="nav-item">
                 <a 
                     className="nav-link collapsed"
                     data-bs-target="#components-nav"
@@ -47,7 +37,7 @@ function SideBar() {
                     <span>Transactions</span>
                     <i className="bi bi-chevron-down ms-auto"></i>
                 </a>
-            </li>
+            </li> */}
 
         </ul>
     </aside>;

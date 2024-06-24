@@ -1,3 +1,4 @@
+
 import express from 'express'
 import bodyParser from 'body-parser'
 import { fileURLToPath } from 'url'
@@ -29,8 +30,10 @@ app.use('/api/transactions', transactionRoutes)
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
 
-// The "catchall" handler: for any request that doesn't match one above, send back the React index.html file.
+
+// Catchall handler for any request that doesn't match above routes
 app.get('*', (req, res) => {
+
   res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'))
 })
 
@@ -40,6 +43,7 @@ mongoose
   .connect(uri)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err))
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
