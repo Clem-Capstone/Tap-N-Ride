@@ -2,8 +2,7 @@
 import React from 'react';
 import './css/sideBar.css';
 
-function SideBar() {
-    
+function SideBar() {   
   return (
     <aside id='sidebar' className='sidebar'>
       <ul className='sidebar-nav' id='sidebar-nav'>
@@ -23,7 +22,7 @@ function SideBar() {
 
         <li className="nav-item">
           <a className="nav-link" href="/admins">
-            <i className="bi bi-person"></i>
+            <i className="bi bi-person-lock"></i>
             <span>Admins</span>
           </a>
         </li>
