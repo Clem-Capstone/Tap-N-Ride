@@ -1,0 +1,99 @@
+.transactions-page {
+  padding: 20px;
+}
+
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.transactions-controls {
+  display: flex;
+  align-items: center;
+}
+
+.transactions-select,
+.transactions-filter-btn,
+.transactions-search-input,
+.transactions-export-btn {
+  margin-right: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.transactions-select {
+  padding: 8px 12px;
+}
+
+.transactions-filter-btn,
+.transactions-export-btn {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.transactions-filter-btn:hover,
+.transactions-export-btn:hover {
+  background-color: #0056b3;
+}
+
+.transactions-search-input {
+  padding: 8px 12px;
+  width: 200px;
+}
+
+.table-container {
+  width: 100%;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.transactions-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.transactions-table td {
+  background-color: #ffffff;
+}
+
+.transactions-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.btn {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn-success {
+  background-color: #4CAF50;
+  color: white;
+  margin-right: 10px;
+  
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+}
+
+

@@ -1,65 +1,53 @@
-// TransactionsTable.jsx
-import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Toolbar } from 'primereact/toolbar';
-import { Calendar } from 'primereact/calendar';
+import React from 'react';
+import { format } from 'date-fns';
+import './css/transactions.css';
 
 const TransactionsTable = ({ transactions }) => {
-  const [globalFilter, setGlobalFilter] = useState('');
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setFilteredTransactions(transactions);
-  }, [transactions]);
-
-  const openDetails = (transaction) => {
-    setSelectedTransaction(transaction);
-    setVisible(true);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return 'Invalid Date';
+    }
+    return format(date, 'EEEE, MMMM d, yyyy h:mm a');
   };
 
-  const transactionDetailsDialog = (
-    <Dialog header="Transaction Details" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-      {selectedTransaction && (
-        <div>
-          <p><strong>ID:</strong> {selectedTransaction.id}</p>
-          <p><strong>Date:</strong> {selectedTransaction.date}</p>
-          <p><strong>User:</strong> {selectedTransaction.user}</p>
-          <p><strong>Amount:</strong> {selectedTransaction.amount}</p>
-          <p><strong>Type:</strong> {selectedTransaction.type}</p>
-          <p><strong>Status:</strong> {selectedTransaction.status}</p>
-          <p><strong>Description:</strong> {selectedTransaction.description}</p>
-        </div>
-      )}
-    </Dialog>
-  );
-
   return (
-    <div>
-      <Toolbar className="mb-4" left={() => (
-        <React.Fragment>
-          <div className="p-inputgroup">
-            <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
-          </div>
-        </React.Fragment>
-      )} />
-      <DataTable value={filteredTransactions} paginator rows={10} rowsPerPageOptions={[5, 10, 25]} globalFilter={globalFilter} header="Transactions">
-        <Column field="id" header="ID" sortable></Column>
-        <Column field="date" header="Date" sortable></Column>
-        <Column field="user" header="User" sortable></Column>
-        <Column field="amount" header="Amount" sortable></Column>
-        <Column field="type" header="Type" sortable></Column>
-        <Column field="status" header="Status" sortable></Column>
-        <Column header="Actions" body={(rowData) => (
-          <Button icon="pi pi-search" className="p-button-rounded p-button-info" onClick={() => openDetails(rowData)} />
-        )}></Column>
-      </DataTable>
-      {transactionDetailsDialog}
+    <div className="table-container">
+      <table className="transactions-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Card ID</th>
+            <th>Balance</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Date/Time</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map(transaction => (
+            <tr key={transaction._id}>
+              <td>{transaction._id}</td>
+              <td>{transaction.userID}</td>
+              <td>{transaction.cardID}</td>
+              <td>{transaction.balance}</td>
+              <td>{transaction.amount}</td>
+              <td>{transaction.type}</td>
+              <td>{transaction.status}</td>
+              <td>{formatDate(transaction.createdAt)}</td>
+              <td>{transaction.description}</td>
+              <td>
+                <button type="button" className="btn btn-success">Edit</button>
+                <button type="button" className="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
