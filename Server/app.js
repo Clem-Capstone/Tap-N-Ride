@@ -25,7 +25,7 @@ app.use('/api/admin', adminAuthRoutes)
 
 // Protected Routes
 app.use('/api/users', userRoutes)
-app.use('/api/transaction', transactionRoutes)
+app.use('/api/transactions', transactionRoutes)
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
 
@@ -35,30 +35,30 @@ app.get('*', (req, res) => {
 })
 
 // TRIAL AND ERROR
-const transactionSchema = new mongoose.Schema({
-  uid: String,
-  timestamp: { type: Date, default: Date.now },
-})
+// const transactionSchema = new mongoose.Schema({
+//   uid: String,
+//   timestamp: { type: Date, default: Date.now },
+// })
 
-const Transaction = mongoose.model('Transaction', transactionSchema)
+// const Transaction = mongoose.model('Transaction', transactionSchema)
 
-app.post('/api/transaction', async (req, res) => {
-  const { uid } = req.body
+// app.post('/api/transaction', async (req, res) => {
+//   const { uid } = req.body
 
-  const newTransaction = new Transaction({ uid })
-  await newTransaction.save()
+//   const newTransaction = new Transaction({ uid })
+//   await newTransaction.save()
 
-  res.status(201).json({ message: 'Transaction saved' })
-})
+//   res.status(201).json({ message: 'Transaction saved' })
+// })
 
-app.get('/api/transactions', async (req, res) => {
-  try {
-    const transactions = await Transaction.find().sort({ timestamp: -1 })
-    res.json(transactions)
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching transactions' })
-  }
-})
+// app.get('/api/transactions', async (req, res) => {
+//   try {
+//     const transactions = await Transaction.find().sort({ timestamp: -1 })
+//     res.json(transactions)
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching transactions' })
+//   }
+// })
 
 // Database Connection
 const uri = process.env.MONGODB_URI
