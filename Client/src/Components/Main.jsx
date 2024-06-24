@@ -4,9 +4,9 @@ import PageTitle from './PageTitle'
 
 function Main() {
     return (
-        <main id="main" className="main">
-            <PageTitle page="Dashboard" />
-        </main>
+        <div id="main" className="main">
+            <PageTitle page="Home" />
+        </div>
     );
 }
 
