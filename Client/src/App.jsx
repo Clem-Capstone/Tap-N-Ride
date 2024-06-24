@@ -33,8 +33,9 @@ function App() {
           <Route path="/login" element={<AdminLogin />} />
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/admins" element={<Admins />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/admins" element={<Admins />} />
+          
           </Route>
         </Routes>
       </div>
