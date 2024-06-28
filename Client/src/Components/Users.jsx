@@ -12,7 +12,7 @@ const Users = () => {
       <Header />
         <SideBar />
         <div id= "main" className="main">
-          <h1>Users</h1>
+          <h1>Pabama Card Holders</h1>
           <UsersTable />
         </div>
      
