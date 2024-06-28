@@ -1,0 +1,26 @@
+.actions-cell {
+    display: flex;
+    align-items: center;
+  }
+  
+  .MuiDataGrid-root {
+    border: none;
+  }
+  
+  .MuiDataGrid-cell {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  
+  .MuiDataGrid-columnHeaders {
+    background-color: #f5f5f5;
+  }
+  
+  .MuiDataGrid-footerContainer {
+    justify-content: flex-end;
+  }
+  
+  .MuiDataGrid-columnHeaderTitle {
+    font-weight: bold;
+  }
+  
