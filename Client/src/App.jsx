@@ -25,6 +25,7 @@ function App() {
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/admins" element={<Admins />} />
             <Route path="/users" element={<Users />} />
+            
           </Route>
         </Routes>
       </div>

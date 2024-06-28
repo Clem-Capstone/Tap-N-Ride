@@ -31,6 +31,15 @@ function SideBar() {
                     <span>Users</span>
                 </a>
             </li>
+
+            <ul className='sidebar-nav' id='sidebar-nav-bottom'>
+             <li className="nav-item">
+             <a className="nav-link" href="/history">
+             <i className="bi bi-clock-history"></i>
+             <span>History</span>
+          </a>
+        </li>
+      </ul>
              
             
 
