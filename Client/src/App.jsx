@@ -15,19 +15,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/admin/register">Admin Register</Link>
-            </li>
-            <li>
-              <Link to="/admin/login">Admin Login</Link>
-            </li>
-          </ul>
-        </nav> */}
+       
         <Routes>
           <Route path="/register" element={<AdminRegister />} />
           <Route path="/login" element={<AdminLogin />} />
