@@ -10,6 +10,7 @@ import AdminLogin from './Components/AdminLogin';
 import PrivateRoute from './Components/PrivateRoute';
 import Admins from './Components/Admins';
 import Transactions from './Components/Transactions';
+import Users from './Components/Users';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/admins" element={<Admins />} />
-          
+            <Route path="/users" element={<Users />} />
           </Route>
         </Routes>
       </div>

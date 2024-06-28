@@ -25,6 +25,14 @@ function SideBar() {
                     <span>Admins</span>
                 </a>
             </li>
+            <li className="nav-item">
+                <a className="nav-link" href="/users">
+                    <i className="bi bi-people"></i>
+                    <span>Users/Card Holders</span>
+                </a>
+            </li>
+             
+            
 
         </ul>
     </aside>;
