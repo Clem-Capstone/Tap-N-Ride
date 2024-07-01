@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import './css/topUp.css';
+import Header from './Header'; // Make sure you import the header
+import SideBar from './SideBar'; // Make sure you import the sidebar
+import './css/topup.css';
 
 const TopUp = () => {
     const [cardId, setCardId] = useState('');
@@ -12,6 +14,9 @@ const TopUp = () => {
     };
 
     return (
+        <>
+         <Header />
+         <SideBar />
         <div className="top-up-container">
             <h1>Top Up</h1>
             <form className="top-up-form" onSubmit={(e) => { e.preventDefault(); handleTopUp(); }}>
@@ -35,6 +40,7 @@ const TopUp = () => {
                 </Button>
             </form>
         </div>
+        </>
     );
 };
 

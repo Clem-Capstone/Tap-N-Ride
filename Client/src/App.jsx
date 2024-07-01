@@ -11,6 +11,8 @@ import PrivateRoute from './Components/PrivateRoute';
 import Admins from './Components/Admins';
 import Transactions from './Components/Transactions';
 import Users from './Components/Users';
+import TopUp from './Components/TopUp';
+import  History from './Components/History';
 
 function App() {
   return (
@@ -25,7 +27,8 @@ function App() {
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/admins" element={<Admins />} />
             <Route path="/users" element={<Users />} />
-            
+            <Route path="/topup" element={<TopUp />} />
+            <Route path="/history" element={<History />} />
           </Route>
         </Routes>
       </div>

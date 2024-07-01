@@ -1,0 +1,10 @@
+.top-up-container {
+    padding: 20px;
+}
+
+.top-up-form {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
