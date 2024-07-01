@@ -8,13 +8,11 @@ const History = () => {
   return (
     <>
       <Header />
-      <div className="app-layout">
-        <SideBar />
-        <div className="main-content">
+      <SideBar />
+      <div id="main" className="main">
           <h1>History</h1>
           <HistoryTable />
         </div>
-      </div>
     </>
   );
 };
