@@ -31,6 +31,12 @@ function SideBar() {
                         <span>Users</span>
                     </a>
                 </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="/topup">
+                        <i className="bi bi-wallet"></i>
+                        <span>Top Up</span>
+                    </a>
+                </li>
             </ul>
 
             <ul className='sidebar-nav-bottom'>
