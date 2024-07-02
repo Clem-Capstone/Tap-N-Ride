@@ -49,7 +49,7 @@ const ReportTable = ({ reports }) => {
     { field: 'busNumber', headerName: 'Bus Number', flex: 1 },
     { field: 'driver', headerName: 'Driver', flex: 1 },
     { field: 'conductor', headerName: 'Conductor', flex: 1 },
-    { field: 'passengerFrom', headerName: 'Passenger From', flex: 1 },
+    { field: 'passengerFrom', headerName: 'Passenger ', flex: 1 },
     { field: 'from', headerName: 'From', flex: 1 },
     { field: 'to', headerName: 'To', flex: 1 },
     {
@@ -101,7 +101,7 @@ const ReportTable = ({ reports }) => {
           <TextField margin="dense" name="busNumber" label="Bus Number" type="text" fullWidth value={editedReport.busNumber} onChange={handleChange} />
           <TextField margin="dense" name="driver" label="Driver" type="text" fullWidth value={editedReport.driver} onChange={handleChange} />
           <TextField margin="dense" name="conductor" label="Conductor" type="text" fullWidth value={editedReport.conductor} onChange={handleChange} />
-          <TextField margin="dense" name="passengerFrom" label="Passenger From" type="text" fullWidth value={editedReport.passengerFrom} onChange={handleChange} />
+          <TextField margin="dense" name="passenger" label="Passenger" type="text" fullWidth value={editedReport.passengerFrom} onChange={handleChange} />
           <TextField margin="dense" name="from" label="From" type="text" fullWidth value={editedReport.from} onChange={handleChange} />
           <TextField margin="dense" name="to" label="To" type="text" fullWidth value={editedReport.to} onChange={handleChange} />
         </DialogContent>
