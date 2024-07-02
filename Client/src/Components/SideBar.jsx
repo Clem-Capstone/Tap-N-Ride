@@ -43,6 +43,7 @@ function SideBar() {
                     <span>Reports</span>
                 </a>
             </li>
+            
             </ul>
 
             <ul className='sidebar-nav-bottom'>
