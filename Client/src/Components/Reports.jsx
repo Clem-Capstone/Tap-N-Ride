@@ -26,7 +26,7 @@ const Reports = () => {
       <Header />
       <SideBar />
       <div id="main" className="main">
-        <h1>Reports</h1>
+        <h1>Travel Details</h1>
         <ReportTable reports={reports} />
       </div>
     </>

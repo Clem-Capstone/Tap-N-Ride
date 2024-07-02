@@ -41,7 +41,7 @@ const locations = [
   { area: "DALWANGAN", km: 80 },
   { area: "PATPAT", km: 84 },
   { area: "KALASUNGAY", km: 89 },
-  { area: "SUMPLONG", km: 90 },
+  { area: "SUMPONG", km: 90 },
   { area: "MALAYBALAY", km: 94 },
   { area: "CASISANG", km: 97 },
   { area: "SAN JOSE", km: 99 },
