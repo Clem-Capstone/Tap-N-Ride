@@ -27,7 +27,7 @@ const Transactions = () => {
       <SideBar />
       <div id="main" className="main">
         <h1>Transactions</h1>
-        <TransactionTable transactions={transactions} />
+        <TransactionTable transactions={transactions} setTransactions={setTransactions} />
       </div>
     </>
   );

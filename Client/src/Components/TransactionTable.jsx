@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { format } from 'date-fns';
+import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 import './css/transactions.css';
 
-const TransactionTable = ({ transactions }) => {
+const TransactionTable = ({ transactions, setTransactions }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -31,16 +32,24 @@ const TransactionTable = ({ transactions }) => {
     setSelectedTransaction(null);
   };
 
-  const handleSave = () => {
-    // Here you would make a request to save the updated transaction to your server
-    console.log('Saving transaction:', editedTransaction);
-    handleCloseEdit();
+  const handleSave = async () => {
+    try {
+      const response = await axios.put(`/api/transactions/${selectedTransaction._id}`, editedTransaction);
+      setTransactions(transactions.map(txn => txn._id === response.data._id ? response.data : txn));
+      handleCloseEdit();
+    } catch (error) {
+      console.error('Failed to save transaction:', error);
+    }
   };
 
-  const handleDelete = () => {
-    // Here you would make a request to delete the transaction from your server
-    console.log('Deleting transaction:', selectedTransaction);
-    handleCloseDelete();
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/transactions/${selectedTransaction._id}`);
+      setTransactions(transactions.filter(txn => txn._id !== selectedTransaction._id));
+      handleCloseDelete();
+    } catch (error) {
+      console.error('Failed to delete transaction:', error);
+    }
   };
 
   const handleChange = (e) => {
@@ -53,7 +62,19 @@ const TransactionTable = ({ transactions }) => {
     { field: 'cardID', headerName: 'Card ID', flex: 1 },
     { field: 'balance', headerName: 'Balance', flex: 1 },
     { field: 'paymentAmount', headerName: 'Payment Amount', flex: 1 },
-    { field: 'createdAt', headerName: 'Date/Time', flex: 1, valueFormatter: (params) => format(new Date(params.value), 'MM/dd/yyyy, p') },
+    { 
+      field: 'createdAt', 
+      headerName: 'Date/Time', 
+      flex: 1, 
+      valueFormatter: (params) => {
+        if (!params.value) return 'Invalid Date';
+        try {
+          return format(parseISO(params.value), 'MM/dd/yyyy, p');
+        } catch (error) {
+          return 'Invalid Date';
+        }
+      }
+    },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -83,9 +104,8 @@ const TransactionTable = ({ transactions }) => {
   ];
 
   const rows = transactions.map((transaction) => ({
-    id: transaction.userID,
+    id: transaction._id,
     ...transaction,
-    createdAt: transaction.createdAt,
   }));
 
   return (

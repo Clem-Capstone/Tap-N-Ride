@@ -1,16 +1,15 @@
 import { faker } from "@faker-js/faker";
-import Transaction from "../models/Transaction";
+import Transaction from "../models/Transaction.js";
 
 const createTransaction = () => {
   return new Transaction({
-    userID: faker.random.uuid(),
-    cardID: faker.random.uuid(),
+    userID: faker.datatype
+      .number({ min: 1000000000, max: 9999999999 })
+      .toString(), // 10 digit user ID
+    cardID: faker.finance.creditCardNumber().replace(/-/g, "").slice(0, 12), // 12 digit card ID
     balance: faker.finance.amount(),
-    amount: faker.finance.amount(),
-    type: faker.random.arrayElement(["Credit", "Debit"]),
-    status: faker.random.arrayElement(["Completed", "Pending"]),
-    description: faker.lorem.sentence(),
-    date: faker.date.recent(),
+    paymentAmount: faker.finance.amount(),
+    createdAt: faker.date.recent(),
   });
 };
 
