@@ -13,6 +13,7 @@ import Transactions from './Components/Transactions';
 import Users from './Components/Users';
 import TopUp from './Components/TopUp';
 import  History from './Components/History';
+import Reports from './Components/Reports';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/topup" element={<TopUp />} />
             <Route path="/history" element={<History />} />
+            <Route path="/reports" element={<Reports />} />
           </Route>
         </Routes>
       </div>

@@ -1,0 +1,10 @@
+
+.actions-cell {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .actions-cell button {
+    margin: 0 5px;
+  }
+  
