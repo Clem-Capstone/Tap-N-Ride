@@ -8,7 +8,7 @@ const TransactionTable = ({ transactions }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [editedTransaction, setEditedTransaction] = useState({ userID: '', cardID: '', balance: '', amount: '', type: '', status: '', description: '' });
+  const [editedTransaction, setEditedTransaction] = useState({ userID: '', cardID: '', balance: '', paymentAmount: '' });
 
   const handleEditClick = (transaction) => {
     setSelectedTransaction(transaction);
@@ -49,15 +49,11 @@ const TransactionTable = ({ transactions }) => {
   };
 
   const columns = [
-    { field: '_id', headerName: 'ID', flex: 0.5 },
-    { field: 'date', headerName: 'Date/Time', flex: 1 },
-    { field: 'userID', headerName: 'User', flex: 1 },
+    { field: 'userID', headerName: 'User ID', flex: 1 },
     { field: 'cardID', headerName: 'Card ID', flex: 1 },
     { field: 'balance', headerName: 'Balance', flex: 1 },
-    { field: 'amount', headerName: 'Amount', flex: 1 },
-    { field: 'type', headerName: 'Type', flex: 0.5 },
-    { field: 'status', headerName: 'Status', flex: 0.5 },
-    { field: 'description', headerName: 'Description', flex: 1 },
+    { field: 'paymentAmount', headerName: 'Payment Amount', flex: 1 },
+    { field: 'createdAt', headerName: 'Date/Time', flex: 1, valueFormatter: (params) => format(new Date(params.value), 'MM/dd/yyyy, p') },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -86,10 +82,10 @@ const TransactionTable = ({ transactions }) => {
     },
   ];
 
-  const rows = transactions.map((transaction, index) => ({
-    id: index + 1,
+  const rows = transactions.map((transaction) => ({
+    id: transaction.userID,
     ...transaction,
-    date: format(new Date(transaction.date), 'MM/dd/yyyy, p'),
+    createdAt: transaction.createdAt,
   }));
 
   return (
@@ -108,7 +104,7 @@ const TransactionTable = ({ transactions }) => {
           <TextField
             margin="dense"
             name="userID"
-            label="User"
+            label="User ID"
             type="text"
             fullWidth
             value={editedTransaction.userID}
@@ -134,38 +130,11 @@ const TransactionTable = ({ transactions }) => {
           />
           <TextField
             margin="dense"
-            name="amount"
-            label="Amount"
+            name="paymentAmount"
+            label="Payment Amount"
             type="number"
             fullWidth
-            value={editedTransaction.amount}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="type"
-            label="Type"
-            type="text"
-            fullWidth
-            value={editedTransaction.type}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="status"
-            label="Status"
-            type="text"
-            fullWidth
-            value={editedTransaction.status}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="description"
-            label="Description"
-            type="text"
-            fullWidth
-            value={editedTransaction.description}
+            value={editedTransaction.paymentAmount}
             onChange={handleChange}
           />
         </DialogContent>
