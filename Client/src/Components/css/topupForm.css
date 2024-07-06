@@ -1,0 +1,35 @@
+body {
+    background-color: #C80036;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.top-up-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.top-up-form-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.top-up-form h1 {
+    margin-bottom: 1.5rem;
+    color: #0C1844;
+    text-align: center;
+}
+
+.top-up-form .MuiInputBase-root {
+    margin-bottom: 1rem;
+}
+
+.top-up-form .MuiButtonBase-root {
+    background-color: #ad1112;
+    color: white;
+}

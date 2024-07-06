@@ -11,14 +11,14 @@
 
 .header-nav .nav-icon {
     font-size: 22px;
-    color: #a84949;
+    color: #fff;
     margin-top: 15px;
     margin-right: 30px;
     position: relative;
 }
 
 .header-nav .nav-profile {
-    color: #a84949;
+    color: #fff;
 }
 
 .header-nav .nav-profile img {
@@ -100,5 +100,5 @@
 }
 
 .header-nav .profile .dropdown-item:hover {
-    background-color: #f6f9ff;
+    background-color: #fff;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import profileImg from '../img/profile.png';
+import './css/navAvatar.css'; // Import the CSS file
 
 function NavAvatar() {
   const navigate = useNavigate();

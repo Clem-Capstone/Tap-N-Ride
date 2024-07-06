@@ -1,0 +1,29 @@
+.nav-item .dropdown-menu {
+    background-color: #0C1844; /* Change this to your desired background color */
+    color: white; /* Change text color to white */
+}
+
+.nav-item .dropdown-menu .dropdown-header {
+    color: white; /* Change text color to white */
+}
+
+.nav-item .dropdown-menu a {
+    color: white; /* Change text color to white */
+}
+
+.nav-item .dropdown-menu a:hover {
+    background-color: #C80036; /* Change hover background color */
+    color: white; /* Change text color to white */
+}
+
+.nav-item .dropdown-divider {
+    border-top: 1px solid white; /* Change divider color to white */
+}
+
+.nav-item .dropdown-menu a i {
+    color: white; /* Change icon color to white */
+}
+
+.nav-item .dropdown-menu a:hover i {
+    color: white; /* Keep icon color white on hover */
+}

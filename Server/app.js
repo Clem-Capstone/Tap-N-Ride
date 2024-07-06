@@ -28,6 +28,24 @@ app.use("/api/admin", adminAuthRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/reports", reportRoutes);
+
+// Top-Up Route
+app.post('/api/top-up', authMiddleware, async (req, res) => {
+  const { userId, amount } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      user.balance += parseFloat(amount);
+      await user.save();
+      res.json({ message: 'Balance topped up successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error topping up balance' });
+  }
+});
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
