@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/auth.css';
-import logo from '../img/pabama-logo.png';
+import logo from '../img/pabama-logo.png'; // Ensure this path is correct
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ login: '', password: '' });
@@ -32,14 +32,11 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className='container'>
-      <div className='left-side'>
-        
-      </div>
-      <div className='right-side'>
-        <div className='wrapper'>
+    <div className="container">
+      <div className="left-side">
+        <div className="form-container">
           <form onSubmit={handleSubmit}>
-            <img src={logo} alt="Left Side" />
+            <img src={logo} alt="Failed to load image." />
             <h1>Login</h1>
             <div className='input-box'>
               <input
@@ -64,21 +61,23 @@ const AdminLogin = () => {
               <i className='bx bxs-lock-alt'></i>
             </div>
             <div className="remember-forgot">
-              <label htmlFor="">
-                <input type="checkbox" />Remember me
+              <label>
+                <input type="checkbox" /> Remember me
               </label>
               <a href="">Forgot password?</a>
             </div>
             <button type="submit" className='btn'>Login</button>
             <div className='login-register-link'>
               <p>
-                Don't have an account?
-                <Link to='/register'>Register</Link>
+                Don't have an account? <Link to='/register'>Register</Link>
               </p>
             </div>
           </form>
           {message && <p>{message}</p>}
         </div>
+      </div>
+      <div className="right-side">
+        
       </div>
     </div>
   );
