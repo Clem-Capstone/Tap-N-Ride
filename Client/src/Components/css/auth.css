@@ -7,22 +7,10 @@
     font-family: "Poppins", sans-serif;
 }
 
-body {
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
-    background: #dbdada !important;
-    background-size: cover;
-    background-position: center;
-
-    
-}
-
 .container {
     display: flex;
     width: 100%;
-    height: 100vh;
-    padding: 0%;
+    height: 100%;
 }
 
 .left-side {
@@ -30,23 +18,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #CE2029;
-    color: #e3e7e6;
-    
-}
-
-.right-side {
-    flex: 1;
-    background-color: #111654; /* Your desired background color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: #C80036;
 }
 
 .form-container {
     width: 70%;
-    background: #CE2029;
-    color: #e3e7e6;
+    background: white;
     padding: 30px 40px;
     border-radius: 8px;
     text-align: center;
@@ -55,12 +32,12 @@ body {
 
 .form-container img {
     width: 60%;
-    display: flex;
-    margin: 0 auto 20px;
+    margin-bottom: 20px;
 }
 
 .form-container h1 {
     font-size: 36px;
+    margin-bottom: 20px;
 }
 
 .input-box {
@@ -105,7 +82,7 @@ body {
 }
 
 .remember-forgot label input {
-    accent-color: #083B4C;
+    accent-color: #0C1844;
     text-decoration: none;
 }
 
@@ -121,7 +98,7 @@ body {
 .form-container .btn {
     width: 100%;
     height: 45px;
-    background: #afafaf;
+    background: #0C1844;
     border: none;
     outline: none;
     border-radius: 40px;
@@ -140,7 +117,7 @@ body {
 }
 
 .login-register-link p a {
-    color: #e3e7e6;
+    color: #C80036;
     text-decoration: none;
     font-weight: 600;
 }
@@ -151,4 +128,12 @@ body {
 
 .register-link p a:hover {
     text-decoration: underline;
+}
+
+.right-side {
+    flex: 1;
+    background: #0C1844;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
