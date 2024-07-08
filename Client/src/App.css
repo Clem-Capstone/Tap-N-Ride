@@ -16,7 +16,7 @@ body {
 }
 
 a {
-  color: var(--primary) !important;
+  /* color: var(--primary) !important; */
   text-decoration: none;
   cursor: pointer;
 }

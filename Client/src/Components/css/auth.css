@@ -7,44 +7,94 @@
     font-family: "Poppins", sans-serif;
 }
 
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: #C80036; /* Background color */
+    color: #0C1844;
+}
+
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    
+}
+
+.left-container, .right-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    padding: 20px 30px;
+    
+}
+
+.left-container {
+    width: 330px; /* Adjusted width */
+    color: #e2e2e2;
+    background-color: #ff0000e8;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+}
+
+.right-container {
+    width: 500px; /* Adjusted width for the right container */
+    height: 493px;
+    color: #0C1844;
+    margin-left: 0; /* Remove margin between the containers */
+    border-top-right-radius: 20px; /* Apply border-radius to top-left corner */
+    border-bottom-right-radius: 20px;
+    background-color: #C80036;
+    
+}
+.right-container img {
     width: 100%;
     height: 100%;
 }
 
-.left-side {
-    flex: 1;
+.form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #C80036;
-}
-
-.form-container {
-    width: 70%;
-    background: white;
-    padding: 30px 40px;
-    border-radius: 8px;
-    text-align: center;
-    color: #0C1844;
-}
-
-.form-container img {
-    width: 60%;
+    width: 100%;
     margin-bottom: 20px;
+}
+
+.logo-container img {
+    width: 50%; /* Adjusted width */
 }
 
 .form-container h1 {
-    font-size: 36px;
+    font-size: 28px; /* Adjusted font size */
     margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #0b0a0a;
 }
 
 .input-box {
     position: relative;
     width: 100%;
     height: 50px;
-    margin: 30px 0;
+    margin: 20px 0; /* Adjusted margin */
+
 }
 
 .input-box input {
@@ -53,15 +103,15 @@
     background: transparent;
     border: none;
     outline: none;
-    border: 2px solid #0C1844;
+    border: 2px solid #070606;
     border-radius: 40px;
     font-size: 16px;
-    color: #0C1844;
+    color: #0b0a0a;
     padding: 20px 45px 20px 20px;
 }
 
 .input-box input::placeholder {
-    color: #0C1844;
+    color: #0b0a0a;
 }
 
 .input-box i {
@@ -70,70 +120,63 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
-    color: #0C1844;
+    color: #0c173c;
 }
 
-.form-container .remember-forgot {
+.left-container .remember-forgot {
     display: flex;
     justify-content: space-between;
     font-size: 14.5px;
     margin: -15px 0 15px;
-    color: #0C1844;
+    color: #0b0a0a;
 }
 
 .remember-forgot label input {
-    accent-color: #0C1844;
+    accent-color: white;
     text-decoration: none;
 }
 
 .remember-forgot a:visited {
     text-decoration: none;
-    color: #C80036;
+    color: #0b0a0a;
 }
 
 .remember-forgot a:hover {
     text-decoration: underline;
 }
 
-.form-container .btn {
+.left-container .btn {
     width: 100%;
     height: 45px;
-    background: #0C1844;
+    background: #efdfdf;
     border: none;
     outline: none;
     border-radius: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: 600;
 }
 
-.form-container .login-register-link {
+.left-container .login-register-link {
     font-size: 14.5px;
     text-align: center;
     margin-top: 20px 0 15px;
-    color: #0C1844;
+    color: #0b0a0a;
 }
 
 .login-register-link p a {
-    color: #C80036;
+    color: #0b0a0a;
     text-decoration: none;
     font-weight: 600;
 }
 
 .register-link a:visited {
     text-decoration: none;
+        
 }
 
 .register-link p a:hover {
     text-decoration: underline;
-}
-
-.right-side {
-    flex: 1;
-    background: #0C1844;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

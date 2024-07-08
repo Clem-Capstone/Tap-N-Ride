@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/auth.css';
 import logo from '../img/pabama-logo.png'; // Ensure this path is correct
+import rightImage from '../img/transitBus2.jpg'; // Add the path to your right container image
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ login: '', password: '' });
@@ -33,10 +34,12 @@ const AdminLogin = () => {
 
   return (
     <div className="container">
-      <div className="left-side">
+      <div className="left-container">
         <div className="form-container">
-          <form onSubmit={handleSubmit}>
+          <div className="logo-container">
             <img src={logo} alt="Failed to load image." />
+          </div>
+          <form onSubmit={handleSubmit}>
             <h1>Login</h1>
             <div className='input-box'>
               <input
@@ -76,8 +79,9 @@ const AdminLogin = () => {
           {message && <p>{message}</p>}
         </div>
       </div>
-      <div className="right-side">
-        
+      <div className="right-container">
+        <img src={rightImage} alt="Right Side" />
+        <p>Clemenxio Pisot</p>
       </div>
     </div>
   );
