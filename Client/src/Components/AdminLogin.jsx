@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/auth.css';
@@ -6,6 +6,13 @@ import logo from '../img/pabama-logo.png'; // Ensure this path is correct
 import rightImage from '../img/transitBus2.jpg'; // Add the path to your right container image
 
 const AdminLogin = () => {
+  useEffect(() => {
+    document.body.classList.add('login-page');
+    return () => {
+      document.body.classList.remove('login-page');
+    };
+  }, []);
+
   const [formData, setFormData] = useState({ login: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -81,7 +88,7 @@ const AdminLogin = () => {
       </div>
       <div className="right-container">
         <img src={rightImage} alt="Right Side" />
-        <p>Clemenxio Pisot</p>
+        <p></p>
       </div>
     </div>
   );
