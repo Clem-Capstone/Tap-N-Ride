@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/auth.css';
 import logo from '../img/pabama-logo.png'; // Ensure this path is correct
-import rightImage from '../img/transitBus2.jpg'; // Add the path to your right container image
+
 
 const AdminLogin = () => {
   useEffect(() => {
@@ -86,8 +86,7 @@ const AdminLogin = () => {
           {message && <p>{message}</p>}
         </div>
       </div>
-      <div className="right-container">
-        <img src={rightImage} alt="Right Side" />
+      <div >
         <p></p>
       </div>
     </div>
