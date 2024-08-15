@@ -8,10 +8,7 @@ const mongoUri = process.env.MONGODB_URI;
 console.log(`Mongo URI: ${mongoUri}`); // This should print your MongoDB URI
 
 mongoose
-  .connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongoUri)
   .then(() => {
     console.log("Database connected successfully");
     seedDatabase();
@@ -23,6 +20,8 @@ mongoose
 const seedDatabase = async () => {
   try {
     await Transaction.deleteMany(); // Clear existing transactions
+    console.log("Existing transactions cleared.");
+
     const transactions = [];
 
     for (let i = 0; i < 10; i++) {
@@ -34,6 +33,8 @@ const seedDatabase = async () => {
   } catch (error) {
     console.error("Seeding transactions failed:", error.message);
   } finally {
-    mongoose.connection.close();
+    mongoose.connection.close(() => {
+      console.log("Database connection closed.");
+    });
   }
 };

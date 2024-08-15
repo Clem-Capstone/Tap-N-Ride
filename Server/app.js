@@ -11,6 +11,7 @@ import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import dotenv from "dotenv";
+import detectCardRoutes from './routes/detectCardRoutes.js'; 
 dotenv.config();
 
 const app = express();
@@ -24,9 +25,16 @@ app.use(cors());
 // Public Routes
 app.use("/api/admin", adminAuthRoutes);
 
-// Protected Routes
+// User Routes
 app.use("/api/users", userRoutes);
+
+// Card Routes
+app.use("api/detectCard", detectCardRoutes)
+
+// Transaction Routes
 app.use("/api/transactions", transactionRoutes);
+
+// Report Routes
 app.use("/api/reports", reportRoutes);
 
 // Top-Up Route
@@ -45,6 +53,7 @@ app.post('/api/top-up', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Error topping up balance' });
   }
 });
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));

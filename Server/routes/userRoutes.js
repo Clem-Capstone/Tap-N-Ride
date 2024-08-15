@@ -15,9 +15,18 @@ router.get('/', async (req, res) => {
 
 // Create a new user
 router.post('/', async (req, res) => {
+  const { lastName, firstName, middleName, cardID, balance } = req.body;
+
+  if (!lastName || !firstName || !cardID) {
+    return res.status(400).json({ message: 'Last name, first name, and card ID are required.' });
+  }
+
   const user = new User({
-    name: req.body.name,
-    balance: req.body.balance
+    lastName,
+    firstName,
+    middleName,
+    cardID,
+    balance: balance || 0, // Default balance to 0 if not provided
   });
 
   try {
@@ -27,5 +36,6 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
 
 export default router;

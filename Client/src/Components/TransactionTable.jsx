@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import axios from 'axios';
-import { format, parseISO } from 'date-fns';
 import './css/transactions.css';
 
-const TransactionTable = ({ transactions, setTransactions }) => {
+const TransactionTable = () => {
+  const [transactions, setTransactions] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [editedTransaction, setEditedTransaction] = useState({ userID: '', cardID: '', balance: '', paymentAmount: '' });
+  const [editedTransaction, setEditedTransaction] = useState({
+    userID: '',
+    cardID: '',
+    balance: 0,
+    paymentAmount: 0,
+  });
+
+  // Fetch transactions from the API
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get('/api/transactions');
+        const data = response.data;
+
+        // Ensure the response is an array
+        const transactionsArray = Array.isArray(data) ? data : data.data || [];
+        setTransactions(transactionsArray);
+      } catch (error) {
+        console.error('Failed to fetch transactions:', error);
+        setTransactions([]); // Fallback to an empty array on error
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   const handleEditClick = (transaction) => {
     setSelectedTransaction(transaction);
-    setEditedTransaction(transaction);
+    setEditedTransaction({ ...transaction });
     setOpenEdit(true);
   };
 
@@ -25,6 +49,7 @@ const TransactionTable = ({ transactions, setTransactions }) => {
   const handleCloseEdit = () => {
     setOpenEdit(false);
     setSelectedTransaction(null);
+    setEditedTransaction({ userID: '', cardID: '', balance: 0, paymentAmount: 0 });
   };
 
   const handleCloseDelete = () => {
@@ -58,22 +83,18 @@ const TransactionTable = ({ transactions, setTransactions }) => {
   };
 
   const columns = [
+    { field: '_id', headerName: 'ID', flex: 0.5 },
     { field: 'userID', headerName: 'User ID', flex: 1 },
     { field: 'cardID', headerName: 'Card ID', flex: 1 },
     { field: 'balance', headerName: 'Balance', flex: 1 },
     { field: 'paymentAmount', headerName: 'Payment Amount', flex: 1 },
-    { 
-      field: 'createdAt', 
-      headerName: 'Date/Time', 
-      flex: 1, 
+    {
+      field: 'createdAt',
+      headerName: 'Date/Time',
+      flex: 1,
       valueFormatter: (params) => {
-        if (!params.value) return 'Invalid Date';
-        try {
-          return format(parseISO(params.value), 'MM/dd/yyyy, p');
-        } catch (error) {
-          return 'Invalid Date';
-        }
-      }
+        return new Date(params.value).toLocaleString();
+      },
     },
     {
       field: 'actions',
@@ -81,37 +102,18 @@ const TransactionTable = ({ transactions, setTransactions }) => {
       flex: 1,
       renderCell: (params) => (
         <div className="actions-cell">
-          <Button
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={() => handleEditClick(params.row)}
-            style={{ marginRight: 8 }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            size="small"
-            onClick={() => handleDeleteClick(params.row)}
-          >
-            Delete
-          </Button>
+          <Button variant="contained" color="success" size="small" style={{ marginRight: 8 }} onClick={() => handleEditClick(params.row)}>Edit</Button>
+          <Button variant="contained" color="error" size="small" onClick={() => handleDeleteClick(params.row)}>Delete</Button>
         </div>
-      ),
+      )
     },
   ];
 
-  const rows = transactions.map((transaction) => ({
-    id: transaction._id,
-    ...transaction,
-  }));
-
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%', marginTop: 20 }}>
       <DataGrid
-        rows={rows}
+        rows={transactions}
+        getRowId={(row) => row._id}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
@@ -125,8 +127,8 @@ const TransactionTable = ({ transactions, setTransactions }) => {
             margin="dense"
             name="userID"
             label="User ID"
-            type="text"
             fullWidth
+            variant="standard"
             value={editedTransaction.userID}
             onChange={handleChange}
           />
@@ -134,8 +136,8 @@ const TransactionTable = ({ transactions, setTransactions }) => {
             margin="dense"
             name="cardID"
             label="Card ID"
-            type="text"
             fullWidth
+            variant="standard"
             value={editedTransaction.cardID}
             onChange={handleChange}
           />
@@ -145,6 +147,7 @@ const TransactionTable = ({ transactions, setTransactions }) => {
             label="Balance"
             type="number"
             fullWidth
+            variant="standard"
             value={editedTransaction.balance}
             onChange={handleChange}
           />
@@ -154,15 +157,14 @@ const TransactionTable = ({ transactions, setTransactions }) => {
             label="Payment Amount"
             type="number"
             fullWidth
+            variant="standard"
             value={editedTransaction.paymentAmount}
             onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEdit}>Cancel</Button>
-          <Button onClick={handleSave} color="primary">
-            Save
-          </Button>
+          <Button onClick={handleCloseEdit} color="primary">Cancel</Button>
+          <Button onClick={handleSave} color="primary">Save</Button>
         </DialogActions>
       </Dialog>
       <Dialog open={openDelete} onClose={handleCloseDelete}>
@@ -171,10 +173,8 @@ const TransactionTable = ({ transactions, setTransactions }) => {
           Are you sure you want to delete this transaction? This action cannot be undone.
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDelete}>Cancel</Button>
-          <Button onClick={handleDelete} color="error">
-            Delete
-          </Button>
+          <Button onClick={handleCloseDelete} color="primary">Cancel</Button>
+          <Button onClick={handleDelete} color="error">Delete</Button>
         </DialogActions>
       </Dialog>
     </div>
