@@ -38,6 +38,8 @@ const AdminRegister = () => {
 
   return (
     <div id='wrapper' className='wrapper'>
+      <div className="left-wrapper">
+        <div className="form-wrapper">
       <form onSubmit={handleSubmit}>
         <h1>Register</h1>
         <div className='input-box'>
@@ -99,6 +101,8 @@ const AdminRegister = () => {
         </div>
       </form>
       {message && <p>{message}</p>}
+    </div>
+    </div>
     </div>
   );
 };

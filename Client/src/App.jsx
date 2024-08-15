@@ -14,6 +14,7 @@ import Users from './Components/Users';
 import TopUp from './Components/TopUp';
 import  History from './Components/History';
 import Reports from './Components/Reports';
+import RoutesArea from './Components/RoutesArea';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/topup" element={<TopUp />} />
             <Route path="/history" element={<History />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/routes" element={<RoutesArea />} />
           </Route>
         </Routes>
       </div>
