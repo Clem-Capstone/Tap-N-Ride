@@ -1,27 +1,29 @@
 .nav-item .dropdown-menu {
-    background-color: #0C1844; /* Change this to your desired background color */
+    background-color: white; /* Change this to your desired background color */
     color: white; /* Change text color to white */
 }
 
 .nav-item .dropdown-menu .dropdown-header {
-    color: white; /* Change text color to white */
+    color: rgb(2, 2, 2); /* Change text color to white */
+    font-weight: bold;
 }
 
 .nav-item .dropdown-menu a {
-    color: white; /* Change text color to white */
+    color: rgb(0, 0, 0); /* Change text color to white */
+   
 }
 
 .nav-item .dropdown-menu a:hover {
-    background-color: #C80036; /* Change hover background color */
-    color: white; /* Change text color to white */
+    background-color: #ad1112 !important; /* Change hover background color */
+    color: rgb(255, 255, 255) !important; /* Change text color to white */
 }
 
 .nav-item .dropdown-divider {
-    border-top: 1px solid white; /* Change divider color to white */
+    border-top: 1px solid rgb(0, 0, 0); /* Change divider color to white */
 }
 
 .nav-item .dropdown-menu a i {
-    color: white; /* Change icon color to white */
+    color: rgb(0, 0, 0); /* Change icon color to white */
 }
 
 .nav-item .dropdown-menu a:hover i {
