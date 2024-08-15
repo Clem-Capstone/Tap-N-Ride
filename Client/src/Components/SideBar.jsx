@@ -38,12 +38,17 @@ function SideBar() {
                     </a>
                 </li>
                 <li className="nav-item">
-                <a className="nav-link" href="/reports">
-                    <i className="bi bi-file-earmark"></i>
-                    <span>Reports</span>
-                </a>
-            </li>
-            
+                    <a className="nav-link" href="/reports">
+                        <i className="bi bi-file-earmark"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="/routes">
+                        <i className="bi bi-signpost"></i> {/* Example icon for Routes */}
+                        <span>Routes</span>
+                    </a>
+                </li>
             </ul>
 
             <ul className='sidebar-nav-bottom'>

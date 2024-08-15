@@ -12,6 +12,9 @@ import reportRoutes from "./routes/reportRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import dotenv from "dotenv";
 import detectCardRoutes from './routes/detectCardRoutes.js'; 
+import routeRoutes from './routes/routeRoutes.js';
+import tapInRoutes from './routes/tapInRoutes.js';
+import tapOutRoutes from './routes/tapOutRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -36,6 +39,13 @@ app.use("/api/transactions", transactionRoutes);
 
 // Report Routes
 app.use("/api/reports", reportRoutes);
+
+// Route Routes
+app.use("/api/routes", routeRoutes);
+
+// Tap-in & Tap-out Routes
+app.use("/api/tap-in", tapInRoutes);
+app.use("/api/tap-out", tapOutRoutes);
 
 // Top-Up Route
 app.post('/api/top-up', authMiddleware, async (req, res) => {
