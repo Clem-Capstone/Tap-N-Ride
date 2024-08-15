@@ -9,3 +9,8 @@
     margin: 0 5px;
   }
   
+
+  .pdf-content .logo {
+    max-width: 100px;
+    margin-bottom: 20px;
+  }
