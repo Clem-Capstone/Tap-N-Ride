@@ -15,6 +15,7 @@ import detectCardRoutes from './routes/detectCardRoutes.js';
 import routeRoutes from './routes/routeRoutes.js';
 import tapInRoutes from './routes/tapInRoutes.js';
 import tapOutRoutes from './routes/tapOutRoutes.js';
+import fareRoutes from "./routes/fareRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -42,6 +43,9 @@ app.use("/api/reports", reportRoutes);
 
 // Route Routes
 app.use("/api/routes", routeRoutes);
+
+// Fare Routes
+app.use("/api/fares", fareRoutes);
 
 // Tap-in & Tap-out Routes
 app.use("/api/tap-in", tapInRoutes);

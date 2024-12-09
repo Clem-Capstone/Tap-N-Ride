@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import './css/routes.css';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Search } from 'lucide-react';
+import ActionButtons from './ActionButtons';
 
-const RoutesTable = () => {
-  const [routes, setRoutes] = useState([]);
-  const [filteredRoutes, setFilteredRoutes] = useState([]);
+interface Route {
+  _id: string;
+  area: string;
+  km: number;
+}
+
+const RoutesTable: React.FC = () => {
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [filteredRoutes, setFilteredRoutes] = useState<Route[]>([]);
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentRoute, setCurrentRoute] = useState({ area: '', km: '' });
+  const [currentRoute, setCurrentRoute] = useState<Route>({ _id: '', area: '', km: 0 });
 
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        const response = await axios.get('/api/routes');
-        console.log(response.data); // Check if data is correctly structured
+        const response = await axios.get<Route[]>('/api/routes');
         setRoutes(response.data);
         setFilteredRoutes(response.data);
       } catch (error) {
@@ -28,7 +33,7 @@ const RoutesTable = () => {
     fetchRoutes();
   }, []);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
     setFilteredRoutes(
@@ -38,7 +43,7 @@ const RoutesTable = () => {
     );
   };
 
-  const handleOpen = (route = { area: '', km: '' }) => {
+  const handleOpen = (route: Route = { _id: '', area: '', km: 0 }) => {
     setCurrentRoute(route);
     setIsEditing(!!route._id);
     setOpen(true);
@@ -46,22 +51,22 @@ const RoutesTable = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setCurrentRoute({ area: '', km: '' });
+    setCurrentRoute({ _id: '', area: '', km: 0 });
     setIsEditing(false);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentRoute({ ...currentRoute, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
     try {
       if (isEditing) {
-        const response = await axios.put(`/api/routes/${currentRoute._id}`, currentRoute);
+        const response = await axios.put<Route>(`/api/routes/${currentRoute._id}`, currentRoute);
         setRoutes(routes.map(route => route._id === response.data._id ? response.data : route));
         setFilteredRoutes(routes.map(route => route._id === response.data._id ? response.data : route));
       } else {
-        const response = await axios.post('/api/routes', currentRoute);
+        const response = await axios.post<Route>('/api/routes', currentRoute);
         setRoutes([...routes, response.data]);
         setFilteredRoutes([...routes, response.data]);
       }
@@ -71,7 +76,7 @@ const RoutesTable = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       await axios.delete(`/api/routes/${id}`);
       setRoutes(routes.filter(route => route._id !== id));
@@ -81,7 +86,7 @@ const RoutesTable = () => {
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     { field: '_id', headerName: 'ID', flex: 0.5 },
     { field: 'area', headerName: 'Area', flex: 1 },
     { field: 'km', headerName: 'Kilometers', flex: 1 },
@@ -90,38 +95,40 @@ const RoutesTable = () => {
       headerName: 'Actions',
       flex: 1,
       renderCell: (params) => (
-        <div className="actions-cell">
-          <Button variant="contained" color="success" size="small" onClick={() => handleOpen(params.row)} style={{ marginRight: 8 }}>Edit</Button>
-          <Button variant="contained" color="error" size="small" onClick={() => handleDelete(params.row._id)}>Delete</Button>
-        </div>
+        <ActionButtons
+          onEdit={() => handleOpen(params.row as Route)}
+          onDelete={() => handleDelete(params.row._id)}
+        />
       )
     },
   ];
 
   return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="flex justify-between items-center mb-4">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleOpen()}
+          className="bg-blue-500 hover:bg-blue-600"
+        >
           New Area
         </Button>
-        <TextField
-          variant="outlined"
-          placeholder="Search routes"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search routes"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
       </div>
-      <div className="table-container">
+      <div style={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={filteredRoutes}
-          getRowId={(row) => row._id} // This line ensures the DataGrid knows how to get the unique ID for each row
+          getRowId={(row) => row._id}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
@@ -138,7 +145,7 @@ const RoutesTable = () => {
             name="area"
             label="Area"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={currentRoute.area}
             onChange={handleChange}
           />
@@ -148,7 +155,7 @@ const RoutesTable = () => {
             label="Kilometers"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={currentRoute.km}
             onChange={handleChange}
           />
@@ -158,7 +165,7 @@ const RoutesTable = () => {
           <Button onClick={handleSubmit} color="primary">{isEditing ? 'Save' : 'Add'}</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 
