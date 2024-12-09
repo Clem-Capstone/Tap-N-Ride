@@ -14,28 +14,27 @@ import Users from './Components/Users';
 import TopUp from './Components/TopUp';
 import  History from './Components/History';
 import Reports from './Components/Reports';
+import RoutesArea from './Components/RoutesArea';
+import FareMatrix from './Components/FareMatrix';
 
-function App() {
+
+const App: React.FC = () => {
   return (
     <Router>
-      <div className="App">
-       
-        <Routes>
-          <Route path="/register" element={<AdminRegister />} />
-          <Route path="/login" element={<AdminLogin />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/transactions" element={<Transactions />} />
-            <Route path="/admins" element={<Admins />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/topup" element={<TopUp />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/reports" element={<Reports />} />
-          </Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/register" element={<AdminRegister />} />
+        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/admins" element={<Admins />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/top-up" element={<TopUp />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/routes" element={<RoutesArea />} />
+        <Route path="/fare-matrix" element={<FareMatrix />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;

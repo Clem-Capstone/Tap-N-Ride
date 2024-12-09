@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import './css/users.css';
+import ActionButtons from './ActionButtons';
 
-const UsersTable = () => {
-  const [users, setUsers] = useState([]);
+interface User {
+  _id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  cardID: string;
+  balance: number;
+}
+
+const UsersTable: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
-  const [newUser, setNewUser] = useState({ lastName: '', firstName: '', middleName: '', cardID: '', balance: 0 });
+  const [newUser, setNewUser] = useState<User>({ _id: '', lastName: '', firstName: '', middleName: '', cardID: '', balance: 0 });
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await axios.get('/api/users');
-      setUsers(response.data);
+      try {
+        const response = await axios.get<User[]>('/api/users');
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     };
 
     fetchUsers();
@@ -20,12 +33,15 @@ const UsersTable = () => {
 
   useEffect(() => {
     if (open) {
-      // Simulate NFC reader listening for card taps
       const intervalId = setInterval(async () => {
-        const response = await axios.get('/api/detectCard'); // Endpoint that detects NFC card tap
-        if (response.data.cardID) {
-          setNewUser((prev) => ({ ...prev, cardID: response.data.cardID }));
-          clearInterval(intervalId);
+        try {
+          const response = await axios.get<{ cardID: string }>('/api/detectCard');
+          if (response.data.cardID) {
+            setNewUser((prev) => ({ ...prev, cardID: response.data.cardID }));
+            clearInterval(intervalId);
+          }
+        } catch (error) {
+          console.error('Error detecting card:', error);
         }
       }, 1000);
 
@@ -33,21 +49,16 @@ const UsersTable = () => {
     }
   }, [open]);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/users', newUser);
+      const response = await axios.post<User>('/api/users', newUser);
       setUsers([...users, response.data]);
       handleClose();
     } catch (error) {
@@ -55,7 +66,17 @@ const UsersTable = () => {
     }
   };
 
-  const columns = [
+  const handleEdit = (user: User) => {
+    // Implement edit functionality
+    console.log('Edit user:', user);
+  };
+
+  const handleDelete = async (id: string) => {
+    // Implement delete functionality
+    console.log('Delete user:', id);
+  };
+
+  const columns: GridColDef[] = [
     { field: '_id', headerName: 'ID', flex: 0.5 },
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
@@ -67,20 +88,25 @@ const UsersTable = () => {
       headerName: 'Actions',
       flex: 1,
       renderCell: (params) => (
-        <div className="actions-cell">
-          <Button variant="contained" color="success" size="small" style={{ marginRight: 8 }}>Edit</Button>
-          <Button variant="contained" color="error" size="small">Delete</Button>
-        </div>
+        <ActionButtons
+          onEdit={() => handleEdit(params.row as User)}
+          onDelete={ () => handleDelete(params.row._id)}
+        />
       )
     },
   ];
 
   return (
-    <>
-      <Button variant="contained" color="primary" onClick={handleOpen}>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+        className="mb-4"
+      >
         New Cardholder
       </Button>
-      <div style={{ height: 400, width: '100%', marginTop: 20 }}>
+      <div style={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={users}
           getRowId={(row) => row._id}
@@ -100,7 +126,7 @@ const UsersTable = () => {
             name="lastName"
             label="Last Name"
             fullWidth
-            variant="standard"
+            variant="outlined"
             onChange={handleChange}
           />
           <TextField
@@ -108,7 +134,7 @@ const UsersTable = () => {
             name="firstName"
             label="First Name"
             fullWidth
-            variant="standard"
+            variant="outlined"
             onChange={handleChange}
           />
           <TextField
@@ -116,7 +142,7 @@ const UsersTable = () => {
             name="middleName"
             label="Middle Name"
             fullWidth
-            variant="standard"
+            variant="outlined"
             onChange={handleChange}
           />
           <TextField
@@ -124,7 +150,7 @@ const UsersTable = () => {
             name="cardID"
             label="Card ID"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={newUser.cardID}
             onChange={handleChange}
           />
@@ -134,7 +160,7 @@ const UsersTable = () => {
             label="Balance"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={newUser.balance}
             onChange={handleChange}
           />
@@ -144,7 +170,7 @@ const UsersTable = () => {
           <Button onClick={handleSubmit} color="primary">Add</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 

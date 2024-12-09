@@ -8,7 +8,7 @@
 }
 
 body.login-page {
-    background: url('C:\Users\oliva\Documents\GitHub\Tap-N-Ride\Client\src\img\buses.png') no-repeat center center fixed, linear-gradient(to right, #dcdcdc, #ffffff);
+    background: url(../../img/buses.png) no-repeat center center fixed, linear-gradient(to right, #dcdcdc, #ffffff);
     background-size: cover; /* This ensures the image covers the entire background */
     color: #0C1844;
     height: 100%;
@@ -172,7 +172,7 @@ body.login-page {
     text-align: center;
     width: 100%;
     height: 100vh;
-    background: url('C:\Users\oliva\Documents\GitHub\Tap-N-Ride\Client\src\img\buses.png') no-repeat center center fixed, linear-gradient(to right, #dcdcdc, #ffffff);
+    background: url('../../img/buses.png') no-repeat center center fixed, linear-gradient(to right, #dcdcdc, #ffffff);
 }
 .left-wrapper{
     display: flex;

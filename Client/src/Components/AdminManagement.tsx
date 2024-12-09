@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PageTitle from './PageTitle';
-import EditAdminModal from './EditAdminModal'; // Import the EditAdminModal component
-import './css/main.css';
+import { Edit as EditIcon, Delete as DeleteIcon } from 'lucide-react';
+import EditAdminModal from './EditAdminModal';
 
-const AdminManagement = () => {
-  const [admins, setAdmins] = useState([]);
-  const [editingAdmin, setEditingAdmin] = useState(null);
+interface Admin {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+  role: string;
+  status: string;
+}
+
+const AdminManagement: React.FC = () => {
+  const [admins, setAdmins] = useState<Admin[]>([]);
+  const [editingAdmin, setEditingAdmin] = useState<Admin | null>(null);
 
   useEffect(() => {
     const fetchAdmins = async () => {
@@ -20,7 +26,7 @@ const AdminManagement = () => {
         return;
       }
       try {
-        const response = await axios.get('/api/admin/admins', {
+        const response = await axios.get<Admin[]>('/api/admin/admins', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -34,12 +40,12 @@ const AdminManagement = () => {
     fetchAdmins();
   }, []);
 
-  const handleEdit = (id) => {
+  const handleEdit = (id: string) => {
     const admin = admins.find(admin => admin._id === id);
-    setEditingAdmin(admin);
+    if (admin) setEditingAdmin(admin);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     const token = localStorage.getItem('token');
     try {
       await axios.delete(`/api/admin/admins/${id}`, {
@@ -53,10 +59,10 @@ const AdminManagement = () => {
     }
   };
 
-  const handleSave = async (updatedAdmin) => {
+  const handleSave = async (updatedAdmin: Admin) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.put(`/api/admin/admins/${updatedAdmin._id}`, updatedAdmin, {
+      const response = await axios.put<Admin>(`/api/admin/admins/${updatedAdmin._id}`, updatedAdmin, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -68,7 +74,7 @@ const AdminManagement = () => {
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', flex: 1 },
     { field: 'username', headerName: 'Username', flex: 1 },
     { field: 'email', headerName: 'Email', flex: 1 },
@@ -81,17 +87,16 @@ const AdminManagement = () => {
       renderCell: (params) => (
         <>
           <IconButton
-            color="primary"
-            onClick={() => handleEdit(params.id)}
-            style={{ marginRight: '10px' }}
+            onClick={() => handleEdit(params.id as string)}
+            className="text-blue-600 hover:text-blue-800"
           >
-            <EditIcon />
+            <EditIcon className="h-5 w-5" />
           </IconButton>
           <IconButton
-            color="secondary"
-            onClick={() => handleDelete(params.id)}
+            onClick={() => handleDelete(params.id as string)}
+            className="text-red-600 hover:text-red-800"
           >
-            <DeleteIcon />
+            <DeleteIcon className="h-5 w-5" />
           </IconButton>
         </>
       ),
@@ -99,8 +104,7 @@ const AdminManagement = () => {
   ];
 
   return (
-    <div id="main" className="main">
-      <PageTitle page="Admins" />
+    <div className="bg-white shadow-md rounded-lg p-6">
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={admins.map(admin => ({ ...admin, id: admin._id }))}
