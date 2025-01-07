@@ -16,6 +16,8 @@ import routeRoutes from './routes/routeRoutes.js';
 import tapInRoutes from './routes/tapInRoutes.js';
 import tapOutRoutes from './routes/tapOutRoutes.js';
 import fareRoutes from "./routes/fareRoutes.js";
+import busRoutes from "./routes/busRoutes.js"
+
 dotenv.config();
 
 const app = express();
@@ -31,9 +33,15 @@ app.use("/api/admin", adminAuthRoutes);
 
 // User Routes
 app.use("/api/users", userRoutes);
+app.use("/api/cardholders", userRoutes);
+
+
+
+//Bus Routes
+app.use("/api/buses", busRoutes);
 
 // Card Routes
-app.use("api/detectCard", detectCardRoutes)
+app.use("/api/detectCard", detectCardRoutes)
 
 // Transaction Routes
 app.use("/api/transactions", transactionRoutes);

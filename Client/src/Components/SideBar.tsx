@@ -11,7 +11,8 @@ import {
   Settings,
   LogOut,
   Table,
-} from 'lucide-react';
+  Bus,
+} from 'lucide-react'; // Import Bus icon
 import logo from '../img/pabama-logo.png';
 
 interface SideBarProps {
@@ -29,10 +30,11 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen }) => {
   const menuItems: MenuItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: ArrowLeftRight, label: 'Transactions', path: '/transactions' },
-    { icon: UserCog, label: 'Admins', path: '/admins' },
-    { icon: Users, label: 'Users', path: '/users' },
+    { icon: UserCog, label: 'Users', path: '/admins' },
+    { icon: Users, label: 'Cardholders', path: '/users' },
     { icon: Map, label: 'Routes', path: '/routes' },
     { icon: Table, label: 'Fare Matrix', path: '/fare-matrix' },
+    { icon: Bus, label: 'Bus Management', path: '/bus-management' }, // Add Bus Management here
     { icon: Coins, label: 'Top Up', path: '/top-up' },
     { icon: FileText, label: 'Reports', path: '/reports' },
     { icon: Settings, label: 'Settings', path: '/settings' },

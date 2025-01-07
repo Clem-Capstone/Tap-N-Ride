@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+// Updated Transaction Model
+import mongoose from 'mongoose';
 
 const TransactionSchema = new mongoose.Schema(
   {
@@ -12,22 +13,25 @@ const TransactionSchema = new mongoose.Schema(
       required: true,
       index: true, // Adds an index to the cardID field
     },
+    type: {
+      type: String,
+      enum: ['payment', 'top-up'], // Transaction type
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+      min: 0, // Ensures the amount is non-negative
+    },
     balance: {
       type: Number,
-      required: true,
       min: 0, // Ensures the balance is non-negative
-      default: 0, // Default value of balance
-    },
-    paymentAmount: {
-      type: Number,
-      required: true,
-      min: 0, // Ensures payment amount is non-negative
-      default: 15, // Default value of paymentAmount
+      default: 0, // Default value of balance for top-ups
     },
   },
   { timestamps: true }
-)
+);
 
-const Transaction = mongoose.model('Transaction', TransactionSchema)
+const Transaction = mongoose.model('Transaction', TransactionSchema);
 
-export default Transaction
+export default Transaction;
