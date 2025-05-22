@@ -1,19 +1,12 @@
 import mongoose from 'mongoose';
 
 const routeSchema = new mongoose.Schema({
-  area: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 2,
-    maxlength: 100,
-  },
-  km: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-}, { timestamps: true });
+  abbreviation: { type: String, required: true },
+  name: { type: String, required: true },
+  branchStation: { type: String, required: true },
+  dateTimeAdded: { type: Date, default: Date.now },
+  isOpen: { type: Boolean, default: true },
+});
 
 const Route = mongoose.model('Route', routeSchema);
 

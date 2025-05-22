@@ -1,58 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { Search } from 'lucide-react';
-import ActionButtons from './ActionButtons';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  IconButton,
+} from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
+import axios from 'axios';
 
 interface Route {
-  _id: string;
-  area: string;
-  km: number;
+  _id: string; // Use _id from MongoDB
+  abbreviation: string;
+  name: string;
+  branchStation: string;
+  dateTimeAdded: string;
+  isOpen: boolean;
 }
 
-const RoutesTable: React.FC = () => {
-  const [routes, setRoutes] = useState<Route[]>([]);
-  const [filteredRoutes, setFilteredRoutes] = useState<Route[]>([]);
-  const [open, setOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentRoute, setCurrentRoute] = useState<Route>({ _id: '', area: '', km: 0 });
+interface RoutesTableProps {
+  routes: Route[];
+  fetchRoutes: () => void;
+}
 
-  useEffect(() => {
-    const fetchRoutes = async () => {
-      try {
-        const response = await axios.get<Route[]>('/api/routes');
-        setRoutes(response.data);
-        setFilteredRoutes(response.data);
-      } catch (error) {
-        console.error('Error fetching routes:', error);
-      }
-    };
+const RoutesTable: React.FC<RoutesTableProps> = ({ routes, fetchRoutes }) => {
+  const [formOpen, setFormOpen] = useState(false);
+  const [currentRoute, setCurrentRoute] = useState<Partial<Route>>({
+    abbreviation: '',
+    name: '',
+    branchStation: '',
+  });
 
-    fetchRoutes();
-  }, []);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-    setFilteredRoutes(
-      routes.filter((route) =>
-        route.area.toLowerCase().includes(query)
-      )
-    );
-  };
-
-  const handleOpen = (route: Route = { _id: '', area: '', km: 0 }) => {
-    setCurrentRoute(route);
-    setIsEditing(!!route._id);
-    setOpen(true);
+  const handleOpen = (route?: Route) => {
+    setCurrentRoute(route || { abbreviation: '', name: '', branchStation: '' });
+    setFormOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setCurrentRoute({ _id: '', area: '', km: 0 });
-    setIsEditing(false);
+    setFormOpen(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,108 +49,135 @@ const RoutesTable: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      if (isEditing) {
-        const response = await axios.put<Route>(`/api/routes/${currentRoute._id}`, currentRoute);
-        setRoutes(routes.map(route => route._id === response.data._id ? response.data : route));
-        setFilteredRoutes(routes.map(route => route._id === response.data._id ? response.data : route));
+      if (currentRoute._id) {
+        // Update existing route using _id
+        await axios.put(`/api/routes/${currentRoute._id}`, currentRoute);
       } else {
-        const response = await axios.post<Route>('/api/routes', currentRoute);
-        setRoutes([...routes, response.data]);
-        setFilteredRoutes([...routes, response.data]);
+        // Add new route
+        await axios.post('/api/routes', currentRoute);
       }
+      fetchRoutes();
       handleClose();
     } catch (error) {
       console.error('Error saving route:', error);
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (_id: string) => {
+    if (!window.confirm('Are you sure you want to delete this route?')) {
+      return;
+    }
+
     try {
-      await axios.delete(`/api/routes/${id}`);
-      setRoutes(routes.filter(route => route._id !== id));
-      setFilteredRoutes(routes.filter(route => route._id !== id));
+      await axios.delete(`/api/routes/${_id}`); // Use _id for delete
+      fetchRoutes();
     } catch (error) {
       console.error('Error deleting route:', error);
     }
   };
 
+  const toggleRouteState = async (_id: string) => {
+    try {
+      await axios.patch(`/api/routes/${_id}/toggle`); // Use _id for toggle
+      fetchRoutes();
+    } catch (error) {
+      console.error('Error toggling route state:', error);
+    }
+  };
+
   const columns: GridColDef[] = [
-    { field: '_id', headerName: 'ID', flex: 0.5 },
-    { field: 'area', headerName: 'Area', flex: 1 },
-    { field: 'km', headerName: 'Kilometers', flex: 1 },
+    { field: 'index', headerName: 'ID', flex: 1 }, // Custom index for display
+    { field: 'abbreviation', headerName: 'Abbreviation', flex: 1 },
+    { field: 'name', headerName: 'Bus Route', flex: 2 },
+    { field: 'branchStation', headerName: 'Branch Station', flex: 1 },
+    { field: 'dateTimeAdded', headerName: 'Date Time Added', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
       flex: 1,
       renderCell: (params) => (
-        <ActionButtons
-          onEdit={() => handleOpen(params.row as Route)}
-          onDelete={() => handleDelete(params.row._id)}
-        />
-      )
+        <div className="flex gap-2">
+          {/* Edit Button */}
+          <IconButton color="primary" onClick={() => handleOpen(params.row as Route)}>
+            <Edit />
+          </IconButton>
+          {/* Delete Button */}
+          <IconButton color="error" onClick={() => handleDelete(params.row._id)}>
+            <Delete />
+          </IconButton>
+          {/* Open/Close Button */}
+          <Button
+            variant="contained"
+            color={params.row.isOpen ? 'success' : 'error'}
+            size="small"
+            onClick={() => toggleRouteState(params.row._id)}
+          >
+            {params.row.isOpen ? 'Open' : 'Close'}
+          </Button>
+        </div>
+      ),
     },
   ];
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <div className="flex justify-between items-center mb-4">
+    <div>
+      <div className="flex justify-end mb-4">
         <Button
           variant="contained"
           color="primary"
           onClick={() => handleOpen()}
-          className="bg-blue-500 hover:bg-blue-600"
         >
-          New Area
+          Add New Route
         </Button>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search routes"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        </div>
       </div>
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid
-          rows={filteredRoutes}
-          getRowId={(row) => row._id}
+          rows={routes.map((route, index) => ({ ...route, index: index + 1 }))}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
-          autoHeight
+          getRowId={(row) => row._id} // Use _id as the unique identifier for rows
         />
       </div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{isEditing ? 'Edit Route' : 'Add New Route'}</DialogTitle>
+      {/* Add/Edit Modal */}
+      <Dialog open={formOpen} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          {currentRoute._id ? 'Edit Route' : 'Add New Route'}
+        </DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
-            name="area"
-            label="Area"
+            name="abbreviation"
+            label="Abbreviation"
             fullWidth
-            variant="outlined"
-            value={currentRoute.area}
+            margin="dense"
+            value={currentRoute.abbreviation || ''}
             onChange={handleChange}
           />
           <TextField
-            margin="dense"
-            name="km"
-            label="Kilometers"
-            type="number"
+            name="name"
+            label="Bus Route"
             fullWidth
-            variant="outlined"
-            value={currentRoute.km}
+            margin="dense"
+            value={currentRoute.name || ''}
+            onChange={handleChange}
+          />
+          <TextField
+            name="branchStation"
+            label="Branch Station"
+            fullWidth
+            margin="dense"
+            value={currentRoute.branchStation || ''}
             onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">Cancel</Button>
-          <Button onClick={handleSubmit} color="primary">{isEditing ? 'Save' : 'Add'}</Button>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

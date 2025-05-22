@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Count Total Users
+router.get("/count", async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    res.status(200).json({ count: totalUsers });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch total users", error: error.message });
+  }
+});
+
 // Create a new user
 router.post('/', async (req, res) => {
   const { lastName, firstName, middleName, cardID, balance } = req.body;

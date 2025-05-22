@@ -16,6 +16,7 @@ import  History from './Components/History';
 import Reports from './Components/Reports';
 import RoutesArea from './Components/RoutesArea';
 import FareMatrix from './Components/FareMatrix';
+import BusManagement from './Components/BusManagement';
 
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/admins" element={<Admins />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/bus-management" element={<BusManagement />} />
         <Route path="/top-up" element={<TopUp />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/routes" element={<RoutesArea />} />
